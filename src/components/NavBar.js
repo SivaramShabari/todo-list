@@ -1,6 +1,19 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-function NavBar() {
+import firebase from "firebase"
+function NavBar(props) {
+    const [userId, setUserId] = useState("nouser")
+
+    useEffect(() => {
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                setUserId(user.uid);
+            } else {
+                setUserId("nouser")
+            }
+        });
+        return () => { }
+    })
     return (
         <>
             <div className='' style={{ marginBottom: "10px", borderBottom: "2px solid #ddd", paddingLeft: '0', paddingRight: '50px', fontSize: '19px' }}>
@@ -20,9 +33,20 @@ function NavBar() {
                                     <li className="nav-item active">
                                         <Link to='/' className="nav-link" href="/"  >Home</Link>
                                     </li>
-                                    <li className="nav-item">
-                                        <Link to='/signin' className="nav-link"   >User</Link>
+                                    <li className="nav-item ">
+                                        <Link to='/archive' className="nav-link">Archived</Link>
                                     </li>
+                                    {
+                                        userId === "nouser" ?
+                                            <div>
+                                                <li className="nav-item">
+                                                    <Link to='/signin' className="nav-link"   >SignIn</Link>
+                                                </li>
+                                            </div> :
+                                            <div>
+                                                <Link to='/user' className="nav-link">{props.name}</Link>
+                                            </div>
+                                    }
                                     <li className="nav-item">
                                     </li>
                                 </ul>

@@ -18,10 +18,12 @@ function Note(props) {
                     <div className="card-body">
                         <div className="card-link">
                             <EditToDo
+                                user_id={props.user_id}
+                                _id={props._id}
                                 name={props.name}
                                 label={props.label}
                                 date={props.date}
-                                notes={props.notes}
+                                notes={props.content}
                             />
                         </div>
                     </div>
